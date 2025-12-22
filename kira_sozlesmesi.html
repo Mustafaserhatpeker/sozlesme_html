@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="tr">
+/* --- kira_sozlesmesi.html --- */
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kira Sözleşmesi</title>
+    <style>
+        /* --- GENEL AYARLAR --- */
+        :root {
+            --page-width: 210mm;
+            --page-height: 297mm;
+            /* DÜZELTME 1: Kenar boşluğu 15mm'ye düşürülerek alan kazanıldı */
+            --page-padding: 15mm;
+            --gray-header: #e0e0e0;
+            --border-color: #000;
+        }
+
+        body {
+            background-color: #555;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- SAYFA YAPISI --- */
+        .page {
+            width: var(--page-width);
+            height: var(--page-height);
+            background: white;
+            padding: var(--page-padding);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- TARİH ALANI --- */
+        .date-container {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+            /* Azaltıldı */
+            font-size: 11pt;
+            font-weight: bold;
+        }
+
+        .date-input {
+            border: none;
+            font-family: inherit;
+            font-size: 11pt;
+            font-weight: bold;
+            background: transparent;
+            width: 120px;
+            color: #000;
+        }
+
+        /* --- TİPOGRAFİ --- */
+        h1 {
+            text-align: center;
+            font-size: 15pt;
+            /* Biraz küçültüldü */
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            /* Boşluk azaltıldı */
+            text-transform: uppercase;
+        }
+
+        /* --- SAYFA 1: TABLO YAPISI --- */
+        .grid-table {
+            border: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .grid-row {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            min-height: 28px;
+            /* Satır yüksekliği biraz optimize edildi */
+        }
+
+        .grid-row:last-child {
+            border-bottom: none;
+        }
+
+        .grid-label {
+            width: 240px;
+            background-color: var(--gray-header);
+            font-weight: bold;
+            font-size: 9.5pt;
+            /* Tablo yazı boyutu optimize edildi */
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid var(--border-color);
+            flex-shrink: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .grid-input-cell {
+            flex-grow: 1;
+            padding: 0;
+            display: flex;
+        }
+
+        .grid-input-cell input[type="text"],
+        .grid-input-cell textarea {
+            width: 100%;
+            border: none;
+            padding: 4px;
+            font-family: inherit;
+            font-size: 10pt;
+            resize: none;
+            outline: none;
+        }
+
+        /* --- SAYFA 2: MADDELER (DÜZENLEME BURADA YOĞUNLAŞTI) --- */
+        .article {
+            text-align: justify;
+            /* DÜZELTME 2: Yazı boyutu ve satır aralığı sıkıştırıldı */
+            font-size: 9.2pt;
+            line-height: 1.25;
+            /* DÜZELTME 3: Maddeler arası boşluk azaltıldı */
+            margin-bottom: 6px;
+        }
+
+        .article-num {
+            float: left;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .magic-input {
+            display: inline-block;
+            min-width: 40px;
+            border-bottom: 1px solid #000;
+            color: #000;
+            outline: none;
+            font-weight: bold;
+            padding: 0 2px;
+            text-align: center;
+            vertical-align: bottom;
+            cursor: text;
+        }
+
+        .magic-input:empty::before {
+            content: attr(data-placeholder);
+            color: #999;
+            font-weight: normal;
+            pointer-events: none;
+        }
+
+        .magic-input:empty {
+            border-bottom: 1px dotted #999;
+        }
+
+        /* --- İMZA ALANI (KOMPAKT HALE GETİRİLDİ) --- */
+        .signature-section {
+            margin-top: auto;
+            width: 100%;
+            /* DÜZELTME 4: Yükseklik 130px'den 100px'e düşürüldü */
+            height: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-top: 10px;
+            border-top: 2px solid #000;
+        }
+
+        .sign-box {
+            text-align: center;
+            width: 23%;
+        }
+
+        .sign-title {
+            font-weight: bold;
+            /* DÜZELTME 5: İmza boşluğu 70px'den 40px'e düşürüldü */
+            margin-bottom: 40px;
+            font-size: 9pt;
+            text-transform: uppercase;
+        }
+
+        /* --- YAZDIR BUTONU --- */
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #b91c1c;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        /* --- YAZDIRMA AYARLARI --- */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+
+            .print-btn {
+                display: none;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+                height: 297mm;
+                padding: 15mm;
+                /* Print için de padding güncellendi */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="print-btn" onclick="window.print()">🖨️ YAZDIR</button>
+
+    <div class="page">
+        <div class="content-wrapper">
+
+            <div class="date-container">
+                Tarih: <input type="text" id="contractDate" class="date-input">
+            </div>
+
+            <h1>KİRA SÖZLEŞMESİ</h1>
+
+            <div class="grid-table">
+                <div class="grid-row">
+                    <div class="grid-label">Taşınmazın İli / İlçesi</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Taşınmazın Mahallesi</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Taşınmazın Caddesi / Sokağı</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Taşınmazın Kapı / Ada Parsel Numarası</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Taşınmazın Cinsi</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row" style="border-top: 2px solid #000;">
+                    <div class="grid-label">Kiraya Verenin Adı Soyadı / Ticari Ünvanı</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kiraya Verenin T.C. Kimlik / Vergi Kimlik Numarası</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kiraya Verenin Ev / İş Adresi</div>
+                    <div class="grid-input-cell"><textarea rows="2"></textarea></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kiraya Verenin Telefon Numarası</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row" style="border-top: 2px solid #000;">
+                    <div class="grid-label">Kiracının Adı Soyadı / Ticari Ünvanı</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kiracının T.C. Kimlik / Vergi Kimlik Numarası</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kiracının Ev / İş Adresi</div>
+                    <div class="grid-input-cell"><textarea rows="2"></textarea></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kiracının Telefon Numarası</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row" style="border-top: 2px solid #000;">
+                    <div class="grid-label">Bir Aylık Kira Bedeli</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Bir Yıllık Kira Bedeli</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kiranın Nasıl Ödeneceği ve Kiranın Ödeneceği Banka Hesap Bilgileri</div>
+                    <div class="grid-input-cell"><textarea rows="3"></textarea></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kira Başlangıç Tarihi</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Kira Bitiş Tarihi</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Taşınmazın Şimdiki Durumu</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label">Taşınmazın Kiralanma Amacı</div>
+                    <div class="grid-input-cell"><input type="text"></div>
+                </div>
+                <div class="grid-row">
+                    <div class="grid-label" style="align-items: flex-start;">Taşınmaz İle Teslim Edilen Demirbaş
+                        Eşyaların Beyanı</div>
+                    <div class="grid-input-cell"><textarea rows="5"></textarea></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="signature-section">
+            <div class="sign-box">
+                <div class="sign-title">MAL SAHİBİ</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">1. KEFİL</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">2. KEFİL</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">KİRACI</div>.......................
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content-wrapper">
+            <h1>ÖZEL KOŞULLAR</h1>
+
+            <div class="article">
+                <span class="article-num">1-</span>
+                Kira süresi 1 (bir) yıldır. Kira sözleşmesinin bitiminden 2 (iki) ay önceden noterden bildirim ile
+                kiracı, sözleşmeyi feshedebilir. Bu halde kiracının diğer sorumlulukları ortadan kalkmaz. Kiracı
+                1.(birinci) yıl dolmadan önce mecurdan ayrılacak olursa, kalan ayların kiralarını ödemeyi kabul eder.
+            </div>
+
+            <div class="article">
+                <span class="article-num">2-</span>
+                İşbu kira sözleşmesi 1 yıllık kira süresi dolmadan 2 (iki) ay önceden yenilemeyeceği Kiracı tarafından
+                bildirilmedikçe otomatik olarak birer yıllık süre ile yenilenebilir. Kira sözleşmesinin otomatik uzaması
+                durumunda kira bedeli, TUİK tarafından açıklanan ve bir önceki kira yılının tüketici fiyat endeksindeki
+                oniki aylık ortalaması oranında artırılacaktır. Kiracı, mecuru tahliye etmek için her ne nam altında
+                olursa olsun, kiraya verenden herhangi bir bedel talep edemez.
+            </div>
+
+            <div class="article">
+                <span class="article-num">3-</span>
+                Kira bedeli aylık net
+                <span class="magic-input" contenteditable="true" data-placeholder="....................."></span>
+                TL dir. Kira sözleşmesinin imzalanması ile birlikte kiraya verene aylık kira bedeli olan
+                <span class="magic-input" contenteditable="true" data-placeholder="....................."></span>
+                TL ile depozito bedeli olan
+                <span class="magic-input" contenteditable="true" data-placeholder="....................."></span>
+                TL'yi peşin ve nakit olarak ödenecektir. KDV, Stopaj ve bu sözleşmeden kaynaklanan Damga Vergisi gibi
+                diğer bütün mali ve idari yükümlülükler ve sorumluluklar kiracıya aittir. Tahliye halinde taşınmazın
+                kira, elektrik, su, doğalgaz, çevre temizlik vergisi, yönetim giderleri sıfırlanıp taşınmazın hasarsız
+                olarak boş teslimi takiben Kiraya Veren tarafından Kiracı'ya derhal iade edilecektir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">4-</span>
+                Aylık kira bedeli, sözleşmenin başlangıç tarihine göre her ay başında ve ayın ilk iş gününü takip eden
+                ilk
+                <span class="magic-input" contenteditable="true" data-placeholder="......"></span>
+                (....) gün içinde peşin olarak kiralayanın banka hesabına ödenecektir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">5-</span>
+                İki aylık kira bedeli üst üste süresi içinde ödenmemesi halinde Kiraya Veren tahliye sürecini
+                başlatabilir, Bu durumda Kiracı mecuru tahliye edeceğini ve ödemediği kira bedellerine aylık temerrüd
+                faizi uygulanacağı şimdiden kabul ve taahhüt etmektedir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">6-</span>
+                Kiralanan/mecur,
+                <span class="magic-input" contenteditable="true"
+                    data-placeholder="...................................."></span>
+                olarak kiraya verilmiş olup, yalnızca bu amaç ile sınırlı olarak kullanılabilir. Başka bir amaç ve konu
+                için kullanılamaz. Aksine kullanımın akde aykırılık teşkil ettiği ve tahliye sebebi olduğu taraflarca
+                kabul edilmiştir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">7-</span>
+                Kira bedeli nettir. Her türlü kanuni ve idari (stopaj, Çevre temizlik Vergisi gibi vergiler, fon, resim,
+                harç ve sair ) sorumluluklar ile mecura ait elektrik, su, doğalgaz, apartman görevlisi ve sair her türlü
+                giderler kiracıya aittir. Kiraya verene hiçbir şekilde yansıtılmadan bizzat kiracı tarafından
+                ödenecektir. Kiracı tarafından ödenmeyip kiraya verenden tahsil olunduğu takdirde, tahsil tarihinden
+                itibaren, yetkili kurumun uyguladığı faiz ve şartlar ile kiracıdan tahsil edilecektir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">8-</span>
+                Mecurda kullanılması halinde ve kullanım şekline göre ısıtma / yakıt, aydınlatma / elektrik, su, bekçi -
+                güvenlik elemanı ve diğer ortak giderler ile mecurun kullanmadan doğan olağan bakım ve küçük çaplı
+                onarım masrafları, sözleşme tarihinden itibaren kiracıya aittir. Söz konusu giderlerin kiracı tarafından
+                ödenmemesi veya geç ödenmesi nedeniyle yasal işleme muhatap kalınması ve kiraya veren tarafından ödeme
+                yapılması halinde, ödeme tarihinden itibaren faizi ile kiracıdan talep olunur. Kiracı, kiralananda
+                yapılması gereken bakım ve onarımları, derhal kiralayana bildirmek zorundadır.
+            </div>
+
+            <div class="article">
+                <span class="article-num">9-</span>
+                Kiracı, mecurun bir bölümünü/katını veya tamamını (kısmen veya tamamen) bir başkasına kiraya veremez,
+                bir başkasına devir edemez ve yanına herhangi bir ortak, gerçek ya da tüzel kişi alamaz. Ancak Kiraya
+                Veren'in yazılı izni dahilinde devredilebilir, alt kiraya verilebilir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">10-</span>
+                Kiracı, mecurun dış cephesinde herhangi bir değişiklik yapamaz, içinde ise, binanın statik ve dinamiğine
+                (kolon- kirişine, sıhhi ve elektrik tesisatına ve sair projesine) aykırı ve zarar verecek hiçbir tamir,
+                tadilat ve değişiklikler yapamaz. Ancak bunların dışında ihtiyacı olan dekoratif, süsleme yapabilir.
+                Sözleşmeye uygun olarak yaptığı ve yapacağı masrafların kendi uhdesinde kalacağını bilerek yapmaktadır.
+            </div>
+
+            <div class="article">
+                <span class="article-num">11-</span>
+                Kiracı kiraladığı şeyi ne halde buldu ise, mal sahibine o halde ve adete göre teslim etmeğe mecburdur.
+                Kiralanan gayrimenkul içinde bulunan demirbaş eşya ve aletler kontrat müddetinin bitiminde tamamen iade
+                ile mükelleftir. Gerek bu demirbaşlar ve gerek kiralanan şeyin teferruatı zayi edilir ve kullanmaktan
+                dolayı eskirse, kiracı talep halinde bunların değerini tazmine mecburdur.
+            </div>
+
+            <div class="article">
+                <span class="article-num">12-</span>
+                Kiracı mukavele müddetinin son ayı içinde kiralanan şeyi görmeye gelen taliplerin gezip görmesine karşı
+                koyamaz.
+            </div>
+
+            <div class="article">
+                <span class="article-num">13-</span>
+                Kira müddeti bittiği halde kiralanan şeyi boşaltmadığı takdirde Kiracı Kiraya Veren'in bundan doğacak
+                zarar ve ziyanını tazmin edecektir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">14-</span>
+                Sözleşmeye yapıştırılması icap eden damga pulları ve kontrat bedel ve harçları belediye ve noter
+                dairelerine ödenecek harç ve resimler kiracıya mal sahibine aittir.
+            </div>
+
+        </div>
+
+        <div class="signature-section">
+            <div class="sign-box">
+                <div class="sign-title">MAL SAHİBİ</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">1. KEFİL</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">2. KEFİL</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">KİRACI</div>.......................
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const dateInput = document.getElementById('contractDate');
+            if (dateInput) {
+                const today = new Date();
+                const day = String(today.getDate()).padStart(2, '0');
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const year = today.getFullYear();
+                dateInput.value = `${day}.${month}.${year}`;
+            }
+        };
+    </script>
+
+</body>
+
+</html>

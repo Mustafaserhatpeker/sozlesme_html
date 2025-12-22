@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="tr">
+    /* --- alim_satim_aracilik_sozlesmesi.html --- */
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alım Satıma Aracılık Sözleşmesi</title>
+    <style>
+        /* --- GENEL AYARLAR --- */
+        :root {
+            --page-width: 210mm;
+            --page-height: 297mm;
+            --page-padding: 20mm;
+            --gray-header: #e0e0e0;
+        }
+
+        body {
+            background-color: #555;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- SAYFA YAPISI --- */
+        .page {
+            width: var(--page-width);
+            height: var(--page-height);
+            background: white;
+            padding: var(--page-padding);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-1-content {
+            justify-content: space-between;
+            padding-bottom: 20px;
+        }
+
+        /* --- TARİH ALANI (YENİ EKLENDİ) --- */
+        .date-container {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 10px;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+
+        .date-input {
+            border: none;
+            /* Alt çizgi olsun istersen: border-bottom: 1px solid #000; */
+            font-family: inherit;
+            font-size: 11pt;
+            font-weight: bold;
+            background: transparent;
+            width: 100px;
+            color: #000;
+        }
+
+        /* --- TİPOGRAFİ --- */
+        h1 {
+            text-align: center;
+            font-size: 16pt;
+            font-weight: bold;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+        }
+
+        /* GRİ BAŞLIKLAR */
+        .section-header {
+            background-color: var(--gray-header);
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 11pt;
+            border-bottom: 1px solid #000;
+            margin-bottom: 10px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* FORM GRUPLARI */
+        .form-row {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 8px;
+            font-size: 11pt;
+        }
+
+        .label {
+            font-weight: bold;
+            width: 170px;
+            flex-shrink: 0;
+        }
+
+        /* --- STANDART INPUTLAR --- */
+        input[type="text"] {
+            flex-grow: 1;
+            border: none;
+            border-bottom: 1px dotted #000;
+            font-family: inherit;
+            font-size: 11pt;
+            padding: 2px 5px;
+            background: transparent;
+            outline: none;
+            color: #000;
+        }
+
+        /* --- SİHİRLİ INPUT --- */
+        .magic-input {
+            display: inline-block;
+            min-width: 40px;
+            border-bottom: 1px solid #000;
+            color: #000;
+            outline: none;
+            font-weight: bold;
+            padding: 0 5px;
+            text-align: center;
+            vertical-align: bottom;
+            cursor: text;
+        }
+
+        .magic-input:empty::before {
+            content: attr(data-placeholder);
+            color: #999;
+            font-weight: normal;
+            pointer-events: none;
+        }
+
+        .magic-input:empty {
+            border-bottom: 1px dotted #999;
+        }
+
+        /* --- MADDELER --- */
+        .article {
+            text-align: justify;
+            font-size: 11pt;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .article-num {
+            float: left;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* --- İMZA ALANI --- */
+        .signature-section {
+            margin-top: auto;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-top: 20px;
+            border-top: 2px solid #000;
+        }
+
+        .sign-box {
+            text-align: center;
+            width: 30%;
+        }
+
+        .sign-title {
+            font-weight: bold;
+            margin-bottom: 60px;
+            font-size: 10pt;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #b91c1c;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        /* --- YAZDIRMA --- */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+
+            .print-btn {
+                display: none;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+                height: 297mm;
+                padding: 20mm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="print-btn" onclick="window.print()">🖨️ YAZDIR</button>
+
+    <div class="page">
+        <div class="content-wrapper page-1-content">
+
+            <div class="date-container">
+                Tarih: <input type="text" id="contractDate" class="date-input">
+            </div>
+
+            <h1>ALIM SATIMA ARACILIK SÖZLEŞMESİ</h1>
+
+            <div class="form-group">
+                <div class="section-header">İŞLETME BİLGİLERİ</div>
+                <div class="form-row"><span class="label">Adı Soyadı</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">T.C. Kimlik No</span>: <input type="text" maxlength="11">
+                </div>
+                <div class="form-row"><span class="label">Telefon Numarası</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">İşletme Ünvanı</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">Adres</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">Oda Sicil No</span>: <input type="text"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="section-header">SATICI BİLGİLERİ</div>
+                <div class="form-row"><span class="label">Adı Soyadı</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">T.C. Kimlik No</span>: <input type="text" maxlength="11">
+                </div>
+                <div class="form-row"><span class="label">İkametgah</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">Telefon Numarası</span>: <input type="text"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="section-header">ALICI BİLGİLERİ</div>
+                <div class="form-row"><span class="label">Adı Soyadı</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">T.C. Kimlik No</span>: <input type="text" maxlength="11">
+                </div>
+                <div class="form-row"><span class="label">İkametgah</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">Telefon Numarası</span>: <input type="text"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="section-header">TAŞINMAZ BİLGİLERİ</div>
+                <div class="form-row"><span class="label">Taşınmazın Cinsi</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">İl / İlçe</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">Mahalle / Köy</span>: <input type="text"></div>
+                <div class="form-row"><span class="label">Tapu Bilgileri</span>: <input type="text"
+                        placeholder="Ada / Parsel vb."></div>
+            </div>
+        </div>
+
+        <div class="signature-section">
+            <div class="sign-box">
+                <div class="sign-title">İŞLETME SAHİBİ</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">MÜLK SAHİBİ</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">ALICI</div>.......................
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content-wrapper">
+            <h1>GENEL ŞARTLAR</h1>
+
+            <div class="article">
+                Yukarıda yazılı taraflar arasında, yukarıda özellikleri gösterilmiş bulunan gayrimenkulün satılması ile
+                ilgili olarak İşletme, Mülk Sahibi ve Alıcı arasında aşağıda yazılı şartlarla bir "Alım Satıma Aracılık
+                Sözleşmesi" kurulmuştur.
+            </div>
+
+            <div class="article">
+                <span class="article-num">1-</span>
+                İşletme, işbu Hizmet Bedeli akdi ile akdin konusu olan gayrimenkule,
+                <span class="magic-input" contenteditable="true"
+                    data-placeholder="........................................."></span>
+                TL satış bedeli karşılığı alıcı bulmak üzere pazarlama faaliyetlerini yapmak ve bu mesleki faaliyeti
+                sonucunda Mülk Sahibi ile Alıcı arasında işi satış safhasına kadar getirmek görevini üstlenmiştir. Buna
+                karşılık Mülk Sahibi ve Alıcı, bu hizmeti karşılığında İşletme'ye, satış bedelinin toplamda %
+                <span class="magic-input" contenteditable="true" data-placeholder="......"></span>
+                + KDV tutarına karşılık gelen meblağı Hizmet Bedeli ücreti olarak ödemeyi kabul ve taahhüt eder.
+            </div>
+
+            <div class="article">
+                <span class="article-num">2-</span>
+                Mülk Sahibi, satılmasını istediği gayrimenkulün tapu aslını ibraz ederek tapunun ve Nüfus Cüzdanının
+                tasdik ettiği birer örneğini İşletme'ye teslim edecektir. Satıcı, Mülk Sahibi değilse, noterlikçe
+                düzenlenmiş vekâletnamenin aslını ibraz edip tasdik ettiği örneğini İşletme'ye teslim edecektir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">3-</span>
+                Mülk Sahibi veya vekili, işbu sözleşmenin imzalanmasından sonra satıştan vazgeçmesi veya kendi kusuru
+                nedeniyle sözleşmenin ifa edilmemesi halinde İşletme'ye satış bedelinin toplamda %
+                <span class="magic-input" contenteditable="true" data-placeholder="......"></span>
+                + KDV tutarına karşılık gelen meblağı cezai şart ödemeyi kabul ve taahhüt eder. Alıcı, satın almaktan
+                vazgeçmesi halinde İşletme'ye satış bedelinin toplamda %
+                <span class="magic-input" contenteditable="true" data-placeholder="......"></span>
+                + KDV tutarına karşılık gelen meblağı cezai şart ödemeyi kabul ve taahhüt eder.
+            </div>
+
+            <div class="article">
+                <span class="article-num">4-</span>
+                İşbu akid ile ilgili doğabilecek ihtilaflarda
+                <span class="magic-input" contenteditable="true"
+                    data-placeholder=".....................">İstanbul</span>
+                Mahkemeleri ve İcra Daireleri yetkilidir.
+            </div>
+
+            <div class="article">
+                <span class="article-num">5-</span>
+                İşletme'nin bu akitten kaynaklanan hizmeti yerine getirirken yapacağı masraflar (tapu harcı, döner
+                sermaye vb.) İş Sahibi ve Alıcı arasında
+                <span class="magic-input" contenteditable="true" data-placeholder="....................."></span>
+                şeklinde paylaşılacaktır.
+            </div>
+
+            <div class="section-header"
+                style="background: none; border-bottom: none; margin-top: 10px; padding-left: 0;">ÖZEL ŞARTLAR:</div>
+
+            <div class="article">
+                <div
+                    style="width: 100%; border: 1px dotted #ccc; font-family: inherit; font-size: 11pt; padding: 10px; min-height: 80px; line-height: 1.5;">
+                    İş bu satış karşılığında
+                    <span class="magic-input" contenteditable="true"
+                        data-placeholder="........................."></span>
+                    TL Kapora alınmıştır. Keyfi vazgeçme durumunda kapora iade edilmeyecektir.
+                </div>
+            </div>
+        </div>
+
+        <div class="signature-section">
+            <div class="sign-box">
+                <div class="sign-title">İŞLETME SAHİBİ</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">MÜLK SAHİBİ</div>.......................
+            </div>
+            <div class="sign-box">
+                <div class="sign-title">ALICI</div>.......................
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            // Bugünün tarihini al
+            const dateInput = document.getElementById('contractDate');
+            const today = new Date();
+
+            // Formatla: GG.AA.YYYY
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const year = today.getFullYear();
+
+            // Input'a yaz
+            dateInput.value = `${day}.${month}.${year}`;
+        };
+    </script>
+
+</body>
+
+</html>

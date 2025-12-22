@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denge Emlak Sözleşme Yönetim Paneli</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        p.subtitle {
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #3b82f6;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            background: #eff6ff;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #2563eb;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin: 0 0 10px 0;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Sözleşme Paneli</h1>
+        <p class="subtitle">Lütfen oluşturmak istediğiniz sözleşme türünü seçiniz.</p>
+
+        <div class="card-grid">
+            <a href="alim-satim.html" class="card">
+                <div class="icon">🏠</div>
+                <h2>Alım Satım Sözleşmesi</h2>
+                <p>Gayrimenkul alım satım işlemleri için aracılık sözleşmesini doldurun ve yazdırın.</p>
+            </a>
+
+            <a href="kira-sozlesmesi.html" class="card">
+                <div class="icon">📝</div>
+                <h2>Kira Sözleşmesi</h2>
+                <p>Konut veya iş yeri kiralamaları için standart kira sözleşmesini doldurun ve yazdırın.</p>
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2025 Denge Emlak Sözleşme Yönetim Sistemi
+        </footer>
+    </div>
+
+</body>
+
+</html>
