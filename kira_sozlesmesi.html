@@ -166,11 +166,10 @@
             border-bottom: 1px dotted #999;
         }
 
-        /* --- İMZA ALANI (KOMPAKT HALE GETİRİLDİ) --- */
+        /* --- İMZA ALANI --- */
         .signature-section {
             margin-top: auto;
             width: 100%;
-            /* DÜZELTME 4: Yükseklik 130px'den 100px'e düşürüldü */
             height: 100px;
             display: flex;
             justify-content: space-between;
@@ -182,11 +181,18 @@
         .sign-box {
             text-align: center;
             width: 23%;
+            min-width: 0;
+        }
+
+        .sign-box .magic-input {
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         .sign-title {
             font-weight: bold;
-            /* DÜZELTME 5: İmza boşluğu 70px'den 40px'e düşürüldü */
             margin-bottom: 40px;
             font-size: 9pt;
             text-transform: uppercase;
@@ -342,16 +348,20 @@
 
         <div class="signature-section">
             <div class="sign-box">
-                <div class="sign-title">MAL SAHİBİ</div>.......................
+                <div class="sign-title">MAL SAHİBİ</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
             <div class="sign-box">
-                <div class="sign-title">1. KEFİL</div>.......................
+                <div class="sign-title">1. KEFİL</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
             <div class="sign-box">
-                <div class="sign-title">2. KEFİL</div>.......................
+                <div class="sign-title">2. KEFİL</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
             <div class="sign-box">
-                <div class="sign-title">KİRACI</div>.......................
+                <div class="sign-title">KİRACI</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
         </div>
     </div>
@@ -379,11 +389,11 @@
             <div class="article">
                 <span class="article-num">3-</span>
                 Kira bedeli aylık net
-                <span class="magic-input" contenteditable="true" data-placeholder="....................."></span>
+                <span class="magic-input" contenteditable="true" data-placeholder="tutar"></span>
                 TL dir. Kira sözleşmesinin imzalanması ile birlikte kiraya verene aylık kira bedeli olan
-                <span class="magic-input" contenteditable="true" data-placeholder="....................."></span>
+                <span class="magic-input" contenteditable="true" data-placeholder="tutar"></span>
                 TL ile depozito bedeli olan
-                <span class="magic-input" contenteditable="true" data-placeholder="....................."></span>
+                <span class="magic-input" contenteditable="true" data-placeholder="tutar"></span>
                 TL'yi peşin ve nakit olarak ödenecektir. KDV, Stopaj ve bu sözleşmeden kaynaklanan Damga Vergisi gibi
                 diğer bütün mali ve idari yükümlülükler ve sorumluluklar kiracıya aittir. Tahliye halinde taşınmazın
                 kira, elektrik, su, doğalgaz, çevre temizlik vergisi, yönetim giderleri sıfırlanıp taşınmazın hasarsız
@@ -394,7 +404,7 @@
                 <span class="article-num">4-</span>
                 Aylık kira bedeli, sözleşmenin başlangıç tarihine göre her ay başında ve ayın ilk iş gününü takip eden
                 ilk
-                <span class="magic-input" contenteditable="true" data-placeholder="......"></span>
+                <span class="magic-input" contenteditable="true" data-placeholder="gün sayısı"></span>
                 gün içinde peşin olarak kiralayanın banka hesabına ödenecektir.
             </div>
 
@@ -409,7 +419,7 @@
                 <span class="article-num">6-</span>
                 Kiralanan/mecur,
                 <span class="magic-input" contenteditable="true"
-                    data-placeholder="...................................."></span>
+                    data-placeholder="kullanım amacı"></span>
                 olarak kiraya verilmiş olup, yalnızca bu amaç ile sınırlı olarak kullanılabilir. Başka bir amaç ve konu
                 için kullanılamaz. Aksine kullanımın akde aykırılık teşkil ettiği ve tahliye sebebi olduğu taraflarca
                 kabul edilmiştir.
@@ -479,16 +489,20 @@
 
         <div class="signature-section">
             <div class="sign-box">
-                <div class="sign-title">MAL SAHİBİ</div>.......................
+                <div class="sign-title">MAL SAHİBİ</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
             <div class="sign-box">
-                <div class="sign-title">1. KEFİL</div>.......................
+                <div class="sign-title">1. KEFİL</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
             <div class="sign-box">
-                <div class="sign-title">2. KEFİL</div>.......................
+                <div class="sign-title">2. KEFİL</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
             <div class="sign-box">
-                <div class="sign-title">KİRACI</div>.......................
+                <div class="sign-title">KİRACI</div>
+                <span class="magic-input" contenteditable="true" data-placeholder="......................."></span>
             </div>
         </div>
     </div>
